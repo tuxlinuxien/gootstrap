@@ -1,0 +1,66 @@
+{
+	"ImportPath": "gootstrap",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v62",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/dgrijalva/jwt-go",
+			"Comment": "v2.6.0",
+			"Rev": "a2c85815a77d0f951e33ba4db5ae93629a1530af"
+		},
+		{
+			"ImportPath": "github.com/labstack/echo",
+			"Comment": "v2.0.0-beta.2-71-gfb8690d",
+			"Rev": "fb8690d42bcb3a44f35c3483dc90e778e385a823"
+		},
+		{
+			"ImportPath": "github.com/labstack/echo/engine",
+			"Comment": "v2.0.0-beta.2-71-gfb8690d",
+			"Rev": "fb8690d42bcb3a44f35c3483dc90e778e385a823"
+		},
+		{
+			"ImportPath": "github.com/labstack/echo/engine/standard",
+			"Comment": "v2.0.0-beta.2-71-gfb8690d",
+			"Rev": "fb8690d42bcb3a44f35c3483dc90e778e385a823"
+		},
+		{
+			"ImportPath": "github.com/labstack/echo/middleware",
+			"Comment": "v2.0.0-beta.2-71-gfb8690d",
+			"Rev": "fb8690d42bcb3a44f35c3483dc90e778e385a823"
+		},
+		{
+			"ImportPath": "github.com/labstack/gommon/color",
+			"Comment": "v0.0.3-50-g4fae226",
+			"Rev": "4fae226dd67b1100622ab213e798e5ee4c5d4230"
+		},
+		{
+			"ImportPath": "github.com/labstack/gommon/log",
+			"Comment": "v0.0.3-50-g4fae226",
+			"Rev": "4fae226dd67b1100622ab213e798e5ee4c5d4230"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-colorable",
+			"Comment": "v0.0.1",
+			"Rev": "bc69d6cebca8dd5675346a34a1c545b67dc74d5e"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-isatty",
+			"Rev": "56b76bdf51f7708750eac80fa38b952bb9f32639"
+		},
+		{
+			"ImportPath": "github.com/valyala/fasttemplate",
+			"Rev": "3b874956e03f1636d171bda64b130f9135f42cff"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "e45385e9b226f570b1f086bf287b25d3d4117776"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "a80ff226bd294315526e7ae48959d55635143ea7"
+		}
+	]
+}
