@@ -14,10 +14,13 @@
 </nav>
 
 <div class="container">
-    <div class="row">
+    <div>
         <h1>Account</h1>
+        <img src="http://www.gravatar.com/avatar/{{image}}?s=200" alt="..." class="img-thumbnail">
+        <br>
+        <br>
     </div>
-    <form class="row" method="POST" action="/account/user/update">
+    <form class="" method="POST" action="/account/user/update">
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Email" disabled value="{{user.Email}}"/>

@@ -11,6 +11,7 @@ import (
     "io/ioutil"
     "github.com/tuxlinuxien/gootstrap/models"
     "crypto/sha1"
+    "crypto/md5"
     "fmt"
     "encoding/json"
 )
@@ -162,6 +163,7 @@ func userPage(c *gin.Context) {
     Get(u)
     c.HTML(http.StatusOK, "account/user.html", pongo2.Context{
         "user": u,
+        "image": fmt.Sprintf("%x", md5.Sum([]byte(u.Email))),
     })
 }
 
