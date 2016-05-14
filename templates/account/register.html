@@ -19,7 +19,13 @@
             <div class="col-md-4 col-md-offset-4 alert alert-danger" role="alert">{{error}}</div>
         </div>
     {% endif %}
-    <form class="form row" action="/account/login" method="POST">
+    {% if ok %}
+        <br>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 alert alert-success" role="success">{{ok}}</div>
+        </div>
+    {% endif %}
+    <form class="form row" action="/account/register" method="POST">
         <div class="form-group col-md-4 col-md-offset-4">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Email"/>
@@ -28,17 +34,18 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="password"/>
         </div>
+        <div class="form-group  col-md-4 col-md-offset-4">
+            <label for="password_repeat">Password confirmation</label>
+            <input type="password" class="form-control" id="password_repeat" name="password_repeat" placeholder="password confirmation"/>
+        </div>
         <div class=" col-md-4 col-md-offset-4">
-            <button class="btn btn-primary">Login</button>
-            <a href="/account/login/github" class="btn btn-success pull-right">
-                <i class="fa fa-github" aria-hidden="true"></i>&nbsp; Github Login
-            </a>
+            <button class="btn btn-primary">Register</button>
         </div>
     </form>
     <div class="row">
         <p class="col-md-4 col-md-offset-4 text-center">
             <br>
-            No account yet? you can <a href="/account/register">register now</a>
+            Already have an account? <a href="/account/login">login here</a>
         </p>
     </div>
 </div>

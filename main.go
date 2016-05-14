@@ -9,6 +9,7 @@ import (
     "log"
     "flag"
     "net/http"
+    _ "github.com/tuxlinuxien/gootstrap/models"
 )
 
 var (
@@ -20,44 +21,19 @@ func init() {
 }
 
 func home(c echo.Context) error {
+    log.Println(c.Cookie("email"))
     log.Println(c.Render(http.StatusOK, "pages/index.html", nil))
     return nil
 }
 
-func auth() {
-
-
-	//fmt.Println("Visit the URL for the auth dialog: %v", url)
-
-
-    // var code string
-	// if _, err := fmt.Scan(&code); err != nil {
-	// 	log.Fatal(err)
-	// }
-	// _, err := conf.Exchange(oauth2.NoContext, code)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-    // tok, err := conf.Exchange(oauth2.NoContext, "authorization-code")
-    // if err != nil {
-    //     log.Fatal(err)
-    // }
-    // log.Println("token", tok, err)
-    //client := conf.Client(oauth2.NoContext, tok)
-    //log.Println(client.Get("/authorizations"))
-
-}
-
 func main() {
-    //auth()
     flag.Parse()
     e := echo.New()
     e.Use(middleware.Logger())
     e.Use(middleware.Recover())
 
     r := pongor.GetRenderer(pongor.PongorOption{
-        //Directory: "templates",
+        Directory: "templates",
 	    Reload: true,
 	})
 
