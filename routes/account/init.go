@@ -14,6 +14,7 @@ import (
     "crypto/md5"
     "fmt"
     "encoding/json"
+    "github.com/tuxlinuxien/gootstrap/config"
 )
 
 var (
@@ -22,8 +23,8 @@ var (
 
 func init() {
     CONF = &oauth2.Config{
-        ClientID:     "78b1337a2bd250a39318",
-        ClientSecret: "8a612f8d59dedd67436d7719b18d3d822968b601",
+        ClientID:     config.Get("CLIENTID").(string),
+        ClientSecret: config.Get("CLIENTSECRET").(string),
         RedirectURL:  "http://localhost:8080/account/callback",
         Scopes: []string{
             "user:email",
@@ -129,7 +130,6 @@ func cb(c *gin.Context) {
     }
     defer resp.Body.Close()
     body, err := ioutil.ReadAll(resp.Body)
-    log.Println(string(body), err)
     var r struct {
         Email string `json:"email"`
     }

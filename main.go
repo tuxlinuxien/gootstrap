@@ -5,20 +5,11 @@ import (
     "github.com/gin-gonic/contrib/sessions"
     "github.com/robvdl/pongo2gin"
     "github.com/flosch/pongo2"
-    "log"
-    "flag"
     "net/http"
     "github.com/tuxlinuxien/gootstrap/routes/account"
     _ "github.com/tuxlinuxien/gootstrap/models"
+    "github.com/tuxlinuxien/gootstrap/config"
 )
-
-var (
-    PORT string = ""
-)
-
-func init() {
-    flag.StringVar(&PORT, "port", "8080", "HTTP port")
-}
 
 func home(c *gin.Context) {
     session := sessions.Default(c)
@@ -31,7 +22,6 @@ func home(c *gin.Context) {
 }
 
 func main() {
-    flag.Parse()
 
     router := gin.New()
     router.Use(gin.Recovery())
@@ -44,6 +34,5 @@ func main() {
     router.GET("/", home)
     account.Init(router)
 
-    log.Println("Server started *:", PORT)
-    router.Run(":"+PORT)
+    router.Run(":"+config.Get("port").(string))
 }

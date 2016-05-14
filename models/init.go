@@ -5,17 +5,16 @@ import (
     "github.com/go-xorm/xorm"
     "github.com/go-xorm/core"
     "log"
-    "flag"
+    "github.com/tuxlinuxien/gootstrap/config"
 )
 
 var (
     Engine *xorm.Engine
-    db string
 )
 
 func init() {
-    flag.StringVar(&db, "db", "./test.db", "db path")
     var err error
+    db := config.Get("db").(string)
     Engine, err = xorm.NewEngine("sqlite3", db)
     if err != nil {
         log.Fatal("Cannot initialize db:", db)
