@@ -1,14 +1,14 @@
 package main
 
 import (
-    "github.com/labstack/echo"
-    "github.com/labstack/echo/middleware"
-    "github.com/labstack/echo/engine/standard"
-    "github.com/tuxlinuxien/gootstrap/lib/pongor"
-    "github.com/tuxlinuxien/gootstrap/routes/account"
+    "github.com/gin-gonic/gin"
+    "github.com/gin-gonic/contrib/sessions"
+    "github.com/robvdl/pongo2gin"
+    "github.com/flosch/pongo2"
     "log"
     "flag"
     "net/http"
+    "github.com/tuxlinuxien/gootstrap/routes/account"
     _ "github.com/tuxlinuxien/gootstrap/models"
 )
 
@@ -20,29 +20,30 @@ func init() {
     flag.StringVar(&PORT, "port", "8080", "HTTP port")
 }
 
-func home(c echo.Context) error {
-    log.Println(c.Cookie("email"))
-    log.Println(c.Render(http.StatusOK, "pages/index.html", nil))
-    return nil
+func home(c *gin.Context) {
+    session := sessions.Default(c)
+    v := session.Get("email")
+    if v != nil {
+        c.Redirect(302, "/account/user")
+        return
+    }
+    c.HTML(http.StatusOK, "pages/index.html", pongo2.Context{})
 }
 
 func main() {
     flag.Parse()
-    e := echo.New()
-    e.Use(middleware.Logger())
-    e.Use(middleware.Recover())
 
-    r := pongor.GetRenderer(pongor.PongorOption{
-        Directory: "templates",
-	    Reload: true,
-	})
+    router := gin.New()
+    router.Use(gin.Recovery())
+    router.HTMLRender = pongo2gin.Default()
 
-    e.SetRenderer(r)
-    e.Static("/static", "public/static")
+    store := sessions.NewCookieStore([]byte("secret"))
+    router.Use(sessions.Sessions("mysession", store))
+    router.Static("/static", "public/static")
 
-    e.Get("/", home)
-    account.Init(e)
+    router.GET("/", home)
+    account.Init(router)
 
     log.Println("Server started *:", PORT)
-    e.Run(standard.New(":"+PORT))
+    router.Run(":"+PORT)
 }

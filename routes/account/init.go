@@ -1,8 +1,9 @@
 package account
 
 import (
-    "github.com/labstack/echo"
-    "gopkg.in/flosch/pongo2.v3"
+    "github.com/gin-gonic/gin"
+    "github.com/gin-gonic/contrib/sessions"
+    "github.com/flosch/pongo2"
     "net/http"
     "log"
     "golang.org/x/oauth2"
@@ -11,7 +12,7 @@ import (
     "github.com/tuxlinuxien/gootstrap/models"
     "crypto/sha1"
     "fmt"
-    "time"
+    "encoding/json"
 )
 
 var (
@@ -30,29 +31,31 @@ func init() {
     }
 }
 
-func Init(e *echo.Echo) {
+func Init(e *gin.Engine) {
     accountGroup := e.Group("/account")
     {
-        accountGroup.Get("/login", homeGet)
-        accountGroup.Post("/login", homePost)
-        accountGroup.Get("/login/github", logingithub)
-        accountGroup.Get("/callback", cb)
-        accountGroup.Get("/register", registerGet)
-        accountGroup.Post("/register", registerPost)
+        accountGroup.GET("/login", homeGet)
+        accountGroup.POST("/login", homePost)
+        accountGroup.GET("/login/github", logingithub)
+        accountGroup.GET("/callback", cb)
+        accountGroup.GET("/register", registerGet)
+        accountGroup.POST("/register", registerPost)
+        accountGroup.GET("/user", userPage)
+        accountGroup.GET("/logout", logout)
     }
 }
 
-func homeGet(c echo.Context) error {
-    return c.Render(http.StatusOK, "account/login.html", nil)
+func homeGet(c *gin.Context) {
+    c.HTML(http.StatusOK, "account/login.html", pongo2.Context{})
 }
 
-func homePost(c echo.Context) error {
+func homePost(c *gin.Context) {
     var user_post struct {
         Email string `form:"email"`
         Pwd string `form:"password"`
     }
     if err := c.Bind(&user_post); err != nil {
-        return err
+        log.Fatal("Error login")
     }
     user_post.Pwd = fmt.Sprintf("%x", sha1.Sum([]byte(user_post.Pwd)))
 
@@ -65,48 +68,55 @@ func homePost(c echo.Context) error {
         log.Fatal("Error login")
     }
     if has != true {
-        return c.Render(http.StatusOK, "account/login.html", pongo2.Context{
+        c.HTML(http.StatusOK, "account/login.html", pongo2.Context{
             "error": "User not found.",
         })
+        return
     }
-    createCookie(c, u)
-    return c.Redirect(302, "/")
+    session := sessions.Default(c)
+    session.Set("email", u.Email)
+    session.Save()
+    c.Redirect(302, "/")
 }
 
-func registerGet(c echo.Context) error {
-    return c.Render(http.StatusOK, "account/register.html", nil)
+func registerGet(c *gin.Context) {
+    c.HTML(http.StatusOK, "account/register.html", pongo2.Context{})
 }
 
-func registerPost(c echo.Context) error {
+func registerPost(c *gin.Context) {
     var user_post struct {
         Email string `form:"email"`
         Pwd string `form:"password"`
         PwdC string `form:"password_repeat"`
     }
     if err := c.Bind(&user_post); err != nil {
-        return err
+        c.String(500, "error")
+        return
     }
     u := new(models.User)
     u.Email = user_post.Email
     u.Password = fmt.Sprintf("%x", sha1.Sum([]byte(user_post.Pwd)))
+    u.Type = "db"
     _, err := models.Engine.Insert(u)
     if err != nil {
-        return c.Render(http.StatusOK, "account/register.html", pongo2.Context{
+        c.HTML(http.StatusOK, "account/register.html", pongo2.Context{
             "error": "User already exists.",
         })
+        return
     }
-    return c.Render(http.StatusOK, "account/register.html", pongo2.Context{
+    c.HTML(http.StatusOK, "account/register.html", pongo2.Context{
         "ok": "User created",
     })
+    return
 }
 
-func logingithub(c echo.Context) error {
+func logingithub(c *gin.Context) {
     url := CONF.AuthCodeURL("state", oauth2.AccessTypeOffline)
-    return c.Redirect(302, url)
+    c.Redirect(302, url)
 }
 
-func cb(c echo.Context) error {
-    code := c.QueryParam("code")
+func cb(c *gin.Context) {
+    code := c.Query("code")
     tok, err := CONF.Exchange(oauth2.NoContext, code)
 	if err != nil {
 		log.Fatal(err)
@@ -119,14 +129,45 @@ func cb(c echo.Context) error {
     defer resp.Body.Close()
     body, err := ioutil.ReadAll(resp.Body)
     log.Println(string(body), err)
-    return c.Redirect(302, "/")
+    var r struct {
+        Email string `json:"email"`
+    }
+    json.Unmarshal(body, &r)
+    u := &models.User{}
+    has, _ := models.Engine.
+    Where("Email = ?", r.Email).
+    Get(u)
+    if has == false {
+        u := new(models.User)
+        u.Email = r.Email
+        u.Type = "github"
+        models.Engine.Insert(u)
+    }
+    session := sessions.Default(c)
+    session.Set("email", r.Email)
+    session.Save()
+    c.Redirect(302, "/")
 }
 
-func createCookie(c echo.Context, u *models.User) {
-    cookie := new(echo.Cookie)
-	cookie.SetName("email")
-	cookie.SetValue(u.Email)
-    cookie.SetSecure(true)
-    cookie.SetExpires(time.Now().Add(2400 * time.Hour))
-    c.SetCookie(cookie)
+func userPage(c *gin.Context) {
+    session := sessions.Default(c)
+    v := session.Get("email")
+    if v == nil {
+        c.Redirect(302, "/account/login")
+        return
+    }
+    u := &models.User{}
+    models.Engine.
+    Where("Email = ?", v.(string)).
+    Get(u)
+    c.HTML(http.StatusOK, "account/user.html", pongo2.Context{
+        "user": u,
+    })
+}
+
+func logout(c *gin.Context) {
+    session := sessions.Default(c)
+    session.Clear()
+    session.Save()
+    c.Redirect(302, "/")
 }

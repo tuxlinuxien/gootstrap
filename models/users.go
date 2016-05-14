@@ -8,7 +8,8 @@ import (
 type User struct {
     Id int64
     Email string `xorm:"varchar(50) not null unique"`
-    Password string `xorm:"TEXT not null"`
+    Password string `xorm:"TEXT"`
+    Type string `xorm:"varchar(20) not null"`
     Created time.Time `xorm:"created"`
 }
 
