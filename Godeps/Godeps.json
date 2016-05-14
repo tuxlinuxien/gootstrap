@@ -1,0 +1,113 @@
+{
+	"ImportPath": "github.com/tuxlinuxien/gootstrap",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v66",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/boj/redistore",
+			"Comment": "v1.2",
+			"Rev": "fc113767cd6b051980f260d6dbe84b2740c46ab0"
+		},
+		{
+			"ImportPath": "github.com/flosch/pongo2",
+			"Comment": "v1.0-rc1-184-g7f55154",
+			"Rev": "7f5515449ea9bbeb00256d9cbb654c556e7d0146"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Rev": "8873b2f1995f59d4bcdd2b0dc9858e2cb9bf0c13"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Rev": "8873b2f1995f59d4bcdd2b0dc9858e2cb9bf0c13"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/contrib/sessions",
+			"Rev": "120df5cf76f14a246b04f0e35d5ee029b14d8dfb"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Comment": "v1.0rc1-266-g542be2f",
+			"Rev": "542be2fe77724f800fcab7eb6c01a4e597fb8506"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/binding",
+			"Comment": "v1.0rc1-266-g542be2f",
+			"Rev": "542be2fe77724f800fcab7eb6c01a4e597fb8506"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/render",
+			"Comment": "v1.0rc1-266-g542be2f",
+			"Rev": "542be2fe77724f800fcab7eb6c01a4e597fb8506"
+		},
+		{
+			"ImportPath": "github.com/go-xorm/core",
+			"Comment": "v0.5.3-5-gedde1c5",
+			"Rev": "edde1c5ab80e3cda107f6b93af6df894caba41ea"
+		},
+		{
+			"ImportPath": "github.com/go-xorm/xorm",
+			"Comment": "v0.5.3-18-g4a173ce",
+			"Rev": "4a173ce4ed59bd4e81fa6dd3842e270a4814648e"
+		},
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "7cc19b78d562895b13596ddce7aafb59dd789318"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Comment": "v1.1-2-ga8d44e7",
+			"Rev": "a8d44e7d8e4d532b6a27a02dd82abb31cc1b01bd"
+		},
+		{
+			"ImportPath": "github.com/gorilla/securecookie",
+			"Comment": "v1.1",
+			"Rev": "667fe4e3466a040b780561fe9b51a83a3753eefc"
+		},
+		{
+			"ImportPath": "github.com/gorilla/sessions",
+			"Rev": "a1216e0aed834aa9074063dd4085f5c3df8d1fab"
+		},
+		{
+			"ImportPath": "github.com/manucorporat/sse",
+			"Rev": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Comment": "v1.1.0-67-g7204887",
+			"Rev": "7204887cf3a42df1cfaa5505dc3a3427f6dded8b"
+		},
+		{
+			"ImportPath": "github.com/robvdl/pongo2gin",
+			"Rev": "53b54ca1f64e50039f69d2517edd1b82e7ecb100"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "30be488e9140ebb7fac3b2995ac5a4b4d5e715ed"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "e86e2718db89775a4604abc10a5d3a5672e7336e"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2/github",
+			"Rev": "e86e2718db89775a4604abc10a5d3a5672e7336e"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2/internal",
+			"Rev": "e86e2718db89775a4604abc10a5d3a5672e7336e"
+		},
+		{
+			"ImportPath": "gopkg.in/go-playground/validator.v8",
+			"Comment": "v8.17.1",
+			"Rev": "014792cf3e266caff1e916876be12282b33059e0"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "a83829b6f1293c91addabc89d0571c246397bbf4"
+		}
+	]
+}
